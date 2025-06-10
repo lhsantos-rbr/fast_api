@@ -12,3 +12,24 @@ def test_root_deve_retornar_ok_e_ola_mundo():
 
     assert response.status_code == HTTPStatus.OK  # Assert
     assert response.json() == {'message': 'Olá Mundo!'}  # Assert
+
+
+def test_criar_usuario_deve_retornar_usuario_criado():
+    client = TestClient(app)  # Arrange
+
+    response = client.post(
+        '/users/',
+        json={
+            'username': 'test_user',
+            'password': 'test_password',
+            'email': 'test@test.com',
+        },
+    )
+
+    assert response.status_code == HTTPStatus.CREATED
+
+    assert response.json() == {
+        'id': 1,
+        'username': 'test_user',
+        'email': 'test@test.com',
+    }  # Assert
