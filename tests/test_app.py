@@ -4,9 +4,14 @@ from fastapi.testclient import TestClient
 
 from fast_zero.app import app
 
+import pytest
 
-def test_root_deve_retornar_ok_e_ola_mundo():
-    client = TestClient(app)  # Arrange
+@pytest.fixture
+def client():
+    return TestClient(app)
+
+
+def test_root_deve_retornar_ok_e_ola_mundo(client):
 
     response = client.get('/')  # Act
 
@@ -14,8 +19,7 @@ def test_root_deve_retornar_ok_e_ola_mundo():
     assert response.json() == {'message': 'Olá Mundo!'}  # Assert
 
 
-def test_criar_usuario_deve_retornar_usuario_criado():
-    client = TestClient(app)  # Arrange
+def test_criar_usuario_deve_retornar_usuario_criado(client):
 
     response = client.post(
         '/users/',
